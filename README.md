@@ -31,9 +31,9 @@ We have on our infrastructure:
   
   This server is the main one. Thanks to Ansible, the application will be deployed automatically on the servers and thanks to Jenkins, we will be able to orchestrate this deployment.
 
-- **private register:**
+- **Dockerhub registry:**
 
-The goal here is to store and share our docker images. we used **artifactory** which is very interesting. In addition to storing images, it allows to share several types of artifacts and to store artifacts by project called *Repository Key*.
+The goal here is to store and share our docker images. we used **Dockerhub**. 
 
 - **build, preprod and production servers:**
 
