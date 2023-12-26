@@ -54,7 +54,7 @@ In order to fully understand this workfow, let's take the following scenario:
 
 - The modification validated by the development team, a **PR** will be carried out in order to share the modification to the Operational (Ops)
 
-- After validation by the whole team, the Ops manager can make the **merge request** in order to pass the modification on the master branch.
+- After validation by the whole team, the Ops manager can make the **merge request** in order to pass the modification on the main branch.
 
 - Deployment in production environment will then be activated and a notification is sent to slack
 
