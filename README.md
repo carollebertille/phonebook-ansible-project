@@ -40,8 +40,6 @@ The goal here is to store and share our docker images. we used **Dockerhub**.
 They will be used respectively for the build of images, for deployments in test and production environments.
 
 ## 4. **Workflow**
-
-It consists of two environments: recet and procuction
 In order to fully understand this workfow, let's take the following scenario:
 
 - Developer makes a modification to the code and pushes it on github
