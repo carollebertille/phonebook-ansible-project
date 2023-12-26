@@ -1,0 +1,14 @@
+# install docker
+- src: geerlingguy.docker
+
+# install pip
+
+- src: geerlingguy.pip
+
+# install git
+
+- src: geerlingguy.git
+
+# install java
+
+- src: geerlingguy.java
