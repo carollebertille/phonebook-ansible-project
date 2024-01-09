@@ -1,11 +1,7 @@
 ---
-
-
-# deployment role of phonebook app
-
 - name: create project directory
   file:
-    path: "{{ home }}/final-project"
+    path: "{{ home }}/phonebook-project"
     state: directory
   tags:
     - build
@@ -24,8 +20,8 @@
 
 - name: load the source code in github
   git:
-    repo: "{{ repo_fake_backend  }}"
-    dest: "{{ home }}/final-project"
+    repo: "{{ repo_phonebook  }}"
+    dest: "{{ home }}/phonebook-project"
     accept_hostkey: yes
     force: yes
     recursive: no
@@ -35,30 +31,9 @@
     - build
     - preprod
     - prod
-
-
-- name: copy insecure-registry in daemon.json
-  template:
-    src: roles/phonebook-app/templates/daemon.j2
-    dest: "{{ docker_path }}/daemon.json"
-    owner: centos
-  tags:
-    - build
-    - preprod
-    - prod
-
-- name: Restart service docker
-  service:
-    name: docker
-    state: restarted
-  tags:
-    - build
-    - preprod
-    - prod
-
+    
 - name: Log into DockerHub
   docker_login:
-    registry: "{{ address_registry }}:{{ port_registry }}"
     username: "{{ dockerhub_login_vault }}"
     password: "{{ dockerhub_pwd_vault }}"
   tags:
@@ -77,9 +52,9 @@
   - name: Build phonebook-mysql
     docker_image:
       build:
-        path: "{{ home }}/final-project"
+        path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-mysql
-      name: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-mysql"
+      name: "{{ username }}/phonebook-mysql"
       state: present
       source: build
       tag: "{{ tag_version }}"
@@ -87,9 +62,9 @@
   - name: Build phonebook-app
     docker_image:
       build:
-        path: "{{ home }}/final-project"
+        path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-app
-      name: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-app"
+      name: "{{ username }}/phonebook-app"
       state: present
       source: build
       tag: "{{ tag_version }}"
@@ -100,9 +75,9 @@
   - name: push phonebook-mysql
     docker_image:
       build:
-        path: "{{ home }}/final-project"
+        path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-mysql
-      name: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-mysql"
+      name: "{{ username }}/phonebook-mysql"
       state: present
       source: build
       push: yes
@@ -111,9 +86,9 @@
   - name: push phonebook-app
     docker_image:
       build:
-        path: "{{ home }}/final-project"
+        path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-app
-      name: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-app"
+      name: "{{ username }}/phonebook-app"
       state: present
       source: build
       push: yes
@@ -125,12 +100,12 @@
 - block:
   - name: pull image of phonebook-mysql
     docker_image:
-      name: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-mysql:{{ tag_version }}"
+      name: "{{ username }}/phonebook-mysql:{{ tag_version }}"
       source: pull
 
   - name: pull image of phonebook-app
     docker_image:
-      name: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-app:{{ tag_version }}"
+      name: "{{ username }}/phonebook_repo/phonebook-app:{{ tag_version }}"
       source: pull
   tags:
     - prod
@@ -140,7 +115,7 @@
   - name: container phonebook mysql
     docker_container:
       name: phonebook-mysql
-      image: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-mysql:{{ tag_version }}"
+      image: "{{ username }}/phonebook-mysql:{{ tag_version }}"
       state: started
       restart: yes
       networks:
@@ -153,7 +128,7 @@
   - name: container phonebook app
     docker_container:
       name: phonebook-app
-      image: "{{ address_registry }}:{{ port_registry }}/phonebook_repo/phonebook-image-app:{{ tag_version }}"
+      image: "{{ username }}/phonebook-app:{{ tag_version }}"
       state: started
       ports:
         - "8181:8181"
