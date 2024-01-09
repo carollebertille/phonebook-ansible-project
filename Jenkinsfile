@@ -141,6 +141,40 @@ pipeline {
                   
                    }
                }
+           /*
+           stage('Find xss vulnerability') {
+            agent { docker { 
+                  image 'gauntlt/gauntlt' 
+                  args '-v ${WORKSPACE}:${WORKSPACE}/project --entrypoint='
+                  } }
+            steps {
+                sh 'gauntlt --version'
+                sh 'gauntlt ${WORKSPACE}/project/attack/xss.attack'
+            }
+          }
+*/
+/*          stage('Find Nmap vulnerability') {
+            agent { docker {
+                  image 'gauntlt/gauntlt'
+                  args '--entrypoint='
+                  } }
+            steps {
+                sh 'gauntlt --version'
+                sh 'gauntlt /tmp/nmap.attack'
+            }
+          }
+
+
+          stage('Find Os detection vulnerability') {
+            agent { docker {
+                  image 'gauntlt/gauntlt'
+                  args '-v /tmp/attack:${WORKSPACE}/attack --entrypoint='
+                  } }
+            steps {
+                sh 'gauntlt --version'
+                sh 'gauntlt /tmp/os_detection.attack'
+            }
+          }
     }
     post {
      always {
