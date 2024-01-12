@@ -47,7 +47,7 @@
       name: "{{ username }}/phonebook-mysql"
       state: present
       source: build
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
 
   - name: Build phonebook-app
     docker_image:
@@ -57,7 +57,7 @@
       name: "{{ username }}/phonebook-app"
       state: present
       source: build
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
   tags:
     - build
 
@@ -71,7 +71,7 @@
       state: present
       source: build
       push: yes
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
 
   - name: push phonebook-app
     docker_image:
@@ -82,7 +82,7 @@
       state: present
       source: build
       push: yes
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
   tags:
     - push
 
@@ -90,12 +90,12 @@
 - block:
   - name: pull image of phonebook-mysql
     docker_image:
-      name: "{{ username }}/phonebook-mysql:{{ tag_version }}"
+      name: "{{ username }}/phonebook-mysql:{{ image_tag }}"
       source: pull
 
   - name: pull image of phonebook-app
     docker_image:
-      name: "{{ username }}/phonebook_repo/phonebook-app:{{ tag_version }}"
+      name: "{{ username }}/phonebook_repo/phonebook-app:{{ image_tag }}"
       source: pull
   tags:
     - prod
@@ -105,7 +105,7 @@
   - name: container phonebook mysql
     docker_container:
       name: phonebook-mysql
-      image: "{{ username }}/phonebook-mysql:{{ tag_version }}"
+      image: "{{ username }}/phonebook-mysql:{{ image_tag }}"
       state: started
       restart: yes
       networks:
@@ -118,7 +118,7 @@
   - name: container phonebook app
     docker_container:
       name: phonebook-app
-      image: "{{ username }}/phonebook-app:{{ tag_version }}"
+      image: "{{ username }}/phonebook-app:{{ image_tag }}"
       state: started
       ports:
         - "8181:8181"
