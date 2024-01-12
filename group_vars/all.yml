@@ -4,9 +4,6 @@ dockerhub_login_vault: "{{ dockerhub_login }}"
 
 dockerhub_pwd_vault: "{{ dockerhub_pwd }}"
 
-github_private_key: "{{ github_private_key_vault }}"
-
-
 home: "/home/ubuntu"
 
 phonebook_source_branch: "main"
@@ -24,24 +21,9 @@ adresse_preprod: "172.31.36.38"
 
 port_preprod: "8181"
 
-address_registry: "52.86.254.190"
-
-port_registry: "8082"
-
-docker_path: "/etc/docker" 
 
 
-# Test Plan jmeter variables
-
-protocol: "http"
-
-loop: "400"
-
-users: "5"
-
-rampup_time: "1"
 
 
-# Zabbix server information
 
-server_address: "3.236.116.238"
+
