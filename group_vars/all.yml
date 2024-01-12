@@ -1,7 +1,7 @@
 ---
-phonebook_source_repo: "https://github.com/carollebertille/phonebook-dev.git"
-phonebook_source_branch: "develop"
-phonebook_image_tag: "0.1"
+repo_phonebook: "https://github.com/carollebertille/phonebook-dev.git"
+source_branch: "develop"
+image_tag: "0.1"
 
 home: "/home/ubuntu"
 
