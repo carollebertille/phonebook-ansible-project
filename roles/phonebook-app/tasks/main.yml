@@ -8,16 +8,6 @@
     - preprod
     - prod
 
-- name: copy devops private key file
-  copy:
-    content: "{{ github_private_key }}"
-    dest: "{{ home }}/.ssh/id_rsa"
-    owner: centos
-  tags:
-    - build
-    - preprod
-    - prod
-
 - name: load the source code in github
   git:
     repo: "{{ repo_phonebook  }}"
