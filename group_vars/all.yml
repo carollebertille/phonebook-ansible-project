@@ -1,26 +1,19 @@
 ---
-
-dockerhub_login_vault: "{{ dockerhub_login }}"
-
-dockerhub_pwd_vault: "{{ dockerhub_pwd }}"
+phonebook_source_repo: "https://github.com/carollebertille/phonebook-dev.git"
+phonebook_source_branch: "develop"
+phonebook_image_tag: "0.1"
 
 home: "/home/ubuntu"
 
-phonebook_source_branch: "main"
 
+ip_addr_preprod: "34.229.188.116"
+ip_addr_prod: "34.229.251.155"
+port_app: "8181"
 
-repo_phonebook: "git@github.com:carollebertille/phonebook-dev.git"
-
-tag_version: "v1.0"
-
-branch_clone: "main"
-
-address_public_preprod: "54.198.56.195"
-
-adresse_preprod: "172.31.36.38"
-
-port_preprod: "8181"
-
+#secret data vaulted
+docker_hub_login: "{{ vault_docker_hub_login }}"
+docker_hub_email: "{{ vault_docker_hub_email }}"
+docker_hub_password: "{{ vault_docker_hub_password }}"
 
 
 
