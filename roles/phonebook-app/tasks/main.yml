@@ -16,7 +16,7 @@
     force: yes
     recursive: no
     key_file: "{{ home }}/.ssh/id_rsa"
-    version: "{{ branch_clone }}"
+    version: "{{ source_branch }}"
   tags:
     - build
     - preprod
