@@ -18,7 +18,7 @@ pipeline {
             }
         }
          
-         /*stage('Prepare ansible environment') {
+         stage('Prepare ansible environment') {
             agent any
             environment {
                 VAULTKEY = credentials('vaultkey')
@@ -27,11 +27,11 @@ pipeline {
             steps {
                 sh 'echo \$VAULTKEY > vault.key'
                 sh 'mkdir -p id_rsa'
-                sh 'cp $DEVOPSKEY id_rsa'
+                sh 'cp \$DEVOPSKEY id_rsa'
                 sh 'chmod 600 id_rsa'
             }
          }
-         stage('Test and deploy the application') {
+         /*stage('Test and deploy the application') {
             agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
             stages {
                stage("Install ansible role dependencies") {
