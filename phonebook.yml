@@ -21,15 +21,11 @@
   pre_tasks:
     - block:
       - name: update all packages
-        yum:
+        apt:
           name: '*'
           update_only: yes
           update_cache: yes
           state: present
-
-      - name: Install EPEL repo
-        package: name=epel-release state=present
-        when: ansible_distribution == "Ubuntu"
 
       - name: install python-pip
         package: name=python-pip state=present update_cache=yes
