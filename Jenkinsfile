@@ -1,15 +1,11 @@
-/*@Library('jenkins-shared-library') _ */
+@Library('jenkins-shared-library') _ 
 
 
 pipeline {
     agent none
     
-     environment {
-        VAULTKEY = credentials('vaultkey')
-        DEVOPSKEY = credentials('devopskey')
-     }
     stages {
-        /*stage('Check bash syntax') {
+        stage('Check bash syntax') {
             agent { docker { image 'koalaman/shellcheck-alpine:latest' } }
             steps {
               script { bashCheck }
@@ -20,7 +16,7 @@ pipeline {
             steps {
               script { yamlCheck }
             }
-        }*/
+        }
          
          /*stage('Prepare ansible environment') {
             agent any
@@ -34,7 +30,7 @@ pipeline {
                 sh 'cp $DEVOPSKEY id_rsa'
                 sh 'chmod 600 id_rsa'
             }
-         }*/
+         }
          stage('Test and deploy the application') {
             agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
             stages {
@@ -123,54 +119,18 @@ pipeline {
                   steps {
                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --tags "prod" check_deploy_app.yml'
                   }
-               }
+               }*/
 
             
-/*
-           stage('Find xss vulnerability') {
-            agent { docker { 
-                  image 'gauntlt/gauntlt' 
-                  args '-v ${WORKSPACE}/docker-jmeter/attack:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt ${WORKSPACE}/attack/xss.attack'
-            }
-          }
-*/
-/*          stage('Find Nmap vulnerability') {
-            agent { docker {
-                  image 'gauntlt/gauntlt'
-                  args '--entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt /tmp/nmap.attack'
-            }
-          }
-
-
-          stage('Find Os detection vulnerability') {
-            agent { docker {
-                  image 'gauntlt/gauntlt'
-                  args '-v /tmp/attack:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt /tmp/os_detection.attack'
-            }
-          }
-*/
     }
-    /*post {
+    post {
      always {
        script {
          // Use slackNotifier.groovy from shared library and provide current build result as parameter 
-
          clean
         slacknotifier currentBuild.result
      }
     }
 
-}*/   
+} 
 }
