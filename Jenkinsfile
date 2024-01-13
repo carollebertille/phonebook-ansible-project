@@ -20,14 +20,14 @@ pipeline {
             steps {
               script { yamlCheck }
             }
-        }
+        }*/
          
          /*stage('Prepare ansible environment') {
             agent any
             environment {
                 VAULTKEY = credentials('vaultkey')
                 DEVOPSKEY = credentials('devopskey')
-            }*/
+            }
             steps {
                 sh 'echo \$VAULTKEY > vault.key'
                 sh 'mkdir -p id_rsa'
