@@ -3,6 +3,7 @@
 
 pipeline {
     agent none
+    
      environment {
         VAULTKEY = credentials('vaultkey')
         DEVOPSKEY = credentials('devopskey')
@@ -167,7 +168,7 @@ pipeline {
          // Use slackNotifier.groovy from shared library and provide current build result as parameter 
 
          clean
-        slackNotifier_ops  currentBuild.result
+        slacknotifier  currentBuild.result
      }
     }
 
