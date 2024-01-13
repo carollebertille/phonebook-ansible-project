@@ -31,7 +31,7 @@ pipeline {
                 sh 'chmod 600 id_rsa'
             }
          }
-         /*stage('Test and deploy the application') {
+         stage('Test and deploy the application') {
             agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
             stages {
                stage("Install ansible role dependencies") {
@@ -88,7 +88,7 @@ pipeline {
                }
 
 
-               stage("Test the functioning of the app in Preprod environment") {
+               /*stage("Test the functioning of the app in Preprod environment") {
                     when {
                        expression { GIT_BRANCH == 'origin/dev' }
                     }
