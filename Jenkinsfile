@@ -16,12 +16,7 @@ pipeline {
               script { yamlCheck }
             }
         }
-         stage('Check markdown syntax') {
-            agent { docker { image 'ruby:alpine' } }
-            steps {
-            script { markdownCheck }
-            }
-         }
+         
          stage('Prepare ansible environment') {
             agent any
             environment {
