@@ -168,7 +168,7 @@ pipeline {
          // Use slackNotifier.groovy from shared library and provide current build result as parameter 
 
          clean
-        slacknotifier  currentBuild.result
+        slacknotifier currentBuild.result
      }
     }
 
