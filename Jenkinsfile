@@ -3,6 +3,10 @@
 
 pipeline {
     agent none
+     environment {
+        VAULTKEY = credentials('vaultkey')
+        DEVOPSKEY = credentials('devopskey')
+     }
     stages {
         stage('Check bash syntax') {
             agent { docker { image 'koalaman/shellcheck-alpine:latest' } }
@@ -17,7 +21,7 @@ pipeline {
             }
         }
          
-         stage('Prepare ansible environment') {
+         /*stage('Prepare ansible environment') {
             agent any
             environment {
                 VAULTKEY = credentials('vaultkey')
@@ -29,7 +33,7 @@ pipeline {
                 sh 'cp $DEVOPSKEY id_rsa'
                 sh 'chmod 600 id_rsa'
             }
-         }
+         }*/
          stage('Test and deploy the application') {
             agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
             stages {
@@ -55,7 +59,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                    }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "build" --limit build phonebook.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key $DEVOPSKEY --tags "build" --limit build phonebook.yml'
                    }
                }
 
@@ -65,7 +69,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                   }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --limit build  clair-scan.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file $VAULTKEY --private-key id_rsa --limit build  clair-scan.yml'
                    }
 
                }
