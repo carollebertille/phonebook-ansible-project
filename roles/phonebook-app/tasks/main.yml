@@ -24,8 +24,8 @@
     
 - name: Log into DockerHub
   docker_login:
-    username: "{{ dockerhub_login_vault }}"
-    password: "{{ dockerhub_pwd_vault }}"
+    username: "{{ dockerhub_login_login }}"
+    password: "{{ docker_hub_password }}"
   tags:
     - build
     - preprod
@@ -95,7 +95,7 @@
 
   - name: pull image of phonebook-app
     docker_image:
-      name: "{{ username }}/phonebook_repo/phonebook-app:{{ image_tag }}"
+      name: "{{ username }}/phonebook-app:{{ image_tag }}"
       source: pull
   tags:
     - prod
