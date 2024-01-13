@@ -27,6 +27,7 @@ pipeline {
             steps {
                 sh 'echo \$VAULTKEY > vault.key'
                 sh 'mkdir -p id_rsa'
+                sudo chown -R jenkins:jenkins id_rsa
                 sh 'cp \$DEVOPSKEY id_rsa'
                 sh 'chmod 600 id_rsa'
             }
