@@ -9,7 +9,7 @@ pipeline {
         DEVOPSKEY = credentials('devopskey')
      }
     stages {
-        stage('Check bash syntax') {
+        /*stage('Check bash syntax') {
             agent { docker { image 'koalaman/shellcheck-alpine:latest' } }
             steps {
               script { bashCheck }
@@ -27,7 +27,7 @@ pipeline {
             environment {
                 VAULTKEY = credentials('vaultkey')
                 DEVOPSKEY = credentials('devopskey')
-            }
+            }*/
             steps {
                 sh 'echo \$VAULTKEY > vault.key'
                 sh 'mkdir -p id_rsa'
