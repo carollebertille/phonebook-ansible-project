@@ -31,7 +31,6 @@ pipeline {
                 sh 'ls -l id_rsa'
                 sh 'cp \$DEVOPSKEY id_rsa'
                 sh  'chmod -R 700 id_rsa'
-'
             }
          }
          stage('Test and deploy the application') {
