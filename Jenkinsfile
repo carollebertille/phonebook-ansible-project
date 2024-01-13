@@ -60,7 +60,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                    }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key $DEVOPSKEY --tags "build" --limit build phonebook.yml'
+                       sh 'ansible-playbook  -i hosts  --tags "build" --limit build phonebook.yml'
                    }
                }
 
