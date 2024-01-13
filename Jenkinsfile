@@ -31,8 +31,8 @@ pipeline {
             }
          }
          stage('Test and deploy the application') {
-            agent any
-            stages {
+           agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
+             stages {
                stage("Install ansible role dependencies") {
                    steps {
                        sh 'ansible-galaxy install  -r roles/requirements.yml'
