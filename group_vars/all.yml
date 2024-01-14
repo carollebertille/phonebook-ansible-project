@@ -1,13 +1,13 @@
 ---
 repo_phonebook: "https://github.com/carollebertille/phonebook-dev.git"
 source_branch: "develop"
-image_tag: "0.1"
+image_tag: "0.2"
 
 home: "/home/ubuntu"
 
 
-ip_addr_preprod: "3.95.190.124"
-ip_addr_prod: "3.86.110.173"
+ip_addr_preprod: "52.91.118.20 "
+ip_addr_prod: "54.227.128.57"
 port_app: "8181"
 
 #secret data vaulted
