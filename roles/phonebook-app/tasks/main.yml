@@ -24,7 +24,7 @@
     
 - name: Log into DockerHub
   docker_login:
-    username: "{{ dockerhub_login_login }}"
+    username: "{{ docker_hub_login }}"
     password: "{{ docker_hub_password }}"
   tags:
     - build
