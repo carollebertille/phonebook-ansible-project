@@ -67,7 +67,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                   }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file $VAULTKEY --private-key id_rsa --limit build  clair-scan.yml'
+                       sh 'ansible-playbook  -i hosts  --private-key id_rsa --limit build  clair-scan.yml'
                    }
 
                }
