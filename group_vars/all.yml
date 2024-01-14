@@ -11,9 +11,8 @@ ip_addr_prod: "52.21.160.186"
 port_app: "8181"
 
 #secret data vaulted
-docker_hub_login: "{{ docker_hub_login }}"
-docker_hub_email: "{{ docker_hub_email }}"
-docker_hub_password: "{{ docker_hub_password }}"
+docker_hub_login: "edennolan2021"
+docker_hub_password: "edennolan1984"
 
 
 
