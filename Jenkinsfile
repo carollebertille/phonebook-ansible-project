@@ -46,6 +46,8 @@ pipeline {
 
                  stage("Vérify ansible playbook syntax") {
                    steps {
+                       sh 'sudo apt install python3-pip -y'
+                       sh 'sudo pip install ansible-lint'
                        sh 'ansible-lint -x 306 phonebook.yml'
                        sh 'echo "${GIT_BRANCH}"'
                    }
