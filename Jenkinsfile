@@ -89,7 +89,7 @@ pipeline {
                }
 
 
-               /*stage("Test the functioning of the app in Preprod environment") {
+               stage("Test the functioning of the app in Preprod environment") {
                     when {
                        expression { GIT_BRANCH == 'origin/dev' }
                     }
@@ -101,7 +101,7 @@ pipeline {
             }
 
          }
-             stage("Deploy app in Production Environment") {
+             /*stage("Deploy app in Production Environment") {
                  agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
                     when {
                        expression { GIT_BRANCH == 'origin/main' }
