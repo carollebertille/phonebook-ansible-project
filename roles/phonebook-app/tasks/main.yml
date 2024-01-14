@@ -131,6 +131,6 @@
 
 - name: Check that you can connect (GET) to a page and it returns a status 200
   uri:
-    url: "http://52.91.118.20:8181"
+    url: "http://{{ ip_addr_preprod }}:{{ port_app }}"
   tags:
     - test
