@@ -1,12 +1,12 @@
 [build]
- 54.197.109.209  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
+54.197.109.209  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
 
 [preprod]
- 3.95.190.124  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
+18.207.1.142  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
 
 
 [prod]
-3.86.110.173  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
+54.87.159.178  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
 
 
 
