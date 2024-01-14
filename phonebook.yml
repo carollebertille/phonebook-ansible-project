@@ -9,6 +9,7 @@
 
   vars_files:
     - "files/secrets/credentials.vault"
+    - group_vars/all.yml
 
   vars:
     pip_install_packages:
