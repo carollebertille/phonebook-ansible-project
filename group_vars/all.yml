@@ -6,8 +6,8 @@ image_tag: "0.1"
 home: "/home/ubuntu"
 
 
-ip_addr_preprod: "44.204.61.214"
-ip_addr_prod: "52.21.160.186"
+ip_addr_preprod: "3.95.190.124"
+ip_addr_prod: "3.86.110.173"
 port_app: "8181"
 
 #secret data vaulted
