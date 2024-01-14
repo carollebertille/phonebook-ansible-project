@@ -4,7 +4,7 @@
 - name: phonebook deployment playbook
   hosts: build preprod prod
   gather_facts: yes
-  become: true
+  become: yes
 
 
   vars_files:
