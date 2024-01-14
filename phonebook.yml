@@ -8,7 +8,7 @@
 
 
   vars_files:
-    - "files/secrets/credentials.vault"
+    - "files/secrets/credentials.yml"
     - group_vars/all.yml
 
   vars:
