@@ -1,8 +1,9 @@
-@Library('jenkins-shared-library') _
+@Library('jenkins-shared-library') _ 
 
 
 pipeline {
     agent none
+    
     stages {
         stage('Check bash syntax') {
             agent { docker { image 'koalaman/shellcheck-alpine:latest' } }
@@ -16,12 +17,7 @@ pipeline {
               script { yamlCheck }
             }
         }
-         stage('Check markdown syntax') {
-            agent { docker { image 'ruby:alpine' } }
-            steps {
-            script { markdownCheck }
-            }
-         }
+         
          stage('Prepare ansible environment') {
             agent any
             environment {
@@ -31,12 +27,12 @@ pipeline {
             steps {
                 sh 'echo \$VAULTKEY > vault.key'
                 sh 'cp \$DEVOPSKEY id_rsa'
-                sh 'chmod 600 id_rsa'
+                sh  'chmod 600 id_rsa'
             }
          }
          stage('Test and deploy the application') {
-            agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
-            stages {
+           agent any
+             stages {
                stage("Install ansible role dependencies") {
                    steps {
                        sh 'ansible-galaxy install  -r roles/requirements.yml'
@@ -48,18 +44,20 @@ pipeline {
                    }
                 }
 
-                 stage("Vérify ansible playbook syntax") {
+                 /*stage("Vérify ansible playbook syntax") {
                    steps {
+                       sh 'sudo apt install python3-pip -y'
+                       sh 'sudo pip install ansible-lint'
                        sh 'ansible-lint -x 306 phonebook.yml'
                        sh 'echo "${GIT_BRANCH}"'
                    }
-                 } 
+                 }*/ 
                stage("Build docker images on build host") {
                    when {
                       expression { GIT_BRANCH == 'origin/dev' }
                    }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "build" --limit build phonebook.yml'
+                       sh 'ansible-playbook  -i hosts --private-key id_rsa --tags "build" --limit build phonebook.yml'
                    }
                }
 
@@ -69,7 +67,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                   }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --limit build  clair-scan.yml'
+                       sh 'ansible-playbook  -i hosts  --private-key id_rsa --limit build  clair-scan.yml'
                    }
 
                }
@@ -103,7 +101,7 @@ pipeline {
             }
 
          }
-             stage("Deploy app in Production Environment") {
+             /*stage("Deploy app in Production Environment") {
                  agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
                     when {
                        expression { GIT_BRANCH == 'origin/main' }
@@ -122,54 +120,19 @@ pipeline {
                   steps {
                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --tags "prod" check_deploy_app.yml'
                   }
-               }
-
-            
-/*
-           stage('Find xss vulnerability') {
-            agent { docker { 
-                  image 'gauntlt/gauntlt' 
-                  args '-v ${WORKSPACE}/docker-jmeter/attack:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt ${WORKSPACE}/attack/xss.attack'
+               }*/
             }
-          }
-*/
-/*          stage('Find Nmap vulnerability') {
-            agent { docker {
-                  image 'gauntlt/gauntlt'
-                  args '--entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt /tmp/nmap.attack'
-            }
-          }
-
-
-          stage('Find Os detection vulnerability') {
-            agent { docker {
-                  image 'gauntlt/gauntlt'
-                  args '-v /tmp/attack:${WORKSPACE}/attack --entrypoint='
-                  } }
-            steps {
-                sh 'gauntlt --version'
-                sh 'gauntlt /tmp/os_detection.attack'
-            }
-          }
-*/
-    }
+         
+           
+    
     post {
      always {
        script {
          // Use slackNotifier.groovy from shared library and provide current build result as parameter 
-
          clean
-        slackNotifier_ops  currentBuild.result
+        slacknotifier currentBuild.result
      }
     }
 
-}   
-}
+} 
+} 

@@ -4,7 +4,7 @@
   vars:
     image_to_scan_mysql: "edennolan2021/phonebook-mysql"  #container to scan for vulnerabilities
     image_to_scan_app: "edennolan2021/phonebook-app"      #container to scan for vulnerabilities
-    image_tag: v1
+    image_tag: 0.1
     clair_server: "172.17.0.1"  #clair server api endpoint
   pre_tasks: 
     - name: setting up clair-db

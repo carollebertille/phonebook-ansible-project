@@ -8,16 +8,6 @@
     - preprod
     - prod
 
-- name: copy devops private key file
-  copy:
-    content: "{{ github_private_key }}"
-    dest: "{{ home }}/.ssh/id_rsa"
-    owner: centos
-  tags:
-    - build
-    - preprod
-    - prod
-
 - name: load the source code in github
   git:
     repo: "{{ repo_phonebook  }}"
@@ -26,7 +16,7 @@
     force: yes
     recursive: no
     key_file: "{{ home }}/.ssh/id_rsa"
-    version: "{{ branch_clone }}"
+    version: "{{ source_branch }}"
   tags:
     - build
     - preprod
@@ -34,8 +24,8 @@
     
 - name: Log into DockerHub
   docker_login:
-    username: "{{ dockerhub_login_vault }}"
-    password: "{{ dockerhub_pwd_vault }}"
+    username: "{{ docker_hub_login }}"
+    password: "{{ docker_hub_password }}"
   tags:
     - build
     - preprod
@@ -54,20 +44,20 @@
       build:
         path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-mysql
-      name: "{{ username }}/phonebook-mysql"
+      name: "{{ docker_hub_login }}/phonebook-mysql"
       state: present
       source: build
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
 
   - name: Build phonebook-app
     docker_image:
       build:
         path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-app
-      name: "{{ username }}/phonebook-app"
+      name: "{{ docker_hub_login }}/phonebook-app"
       state: present
       source: build
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
   tags:
     - build
 
@@ -77,22 +67,22 @@
       build:
         path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-mysql
-      name: "{{ username }}/phonebook-mysql"
+      name: "{{ docker_hub_login }}/phonebook-mysql"
       state: present
       source: build
       push: yes
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
 
   - name: push phonebook-app
     docker_image:
       build:
         path: "{{ home }}/phonebook-project"
         dockerfile: Dockerfile-app
-      name: "{{ username }}/phonebook-app"
+      name: "{{ docker_hub_login }}/phonebook-app"
       state: present
       source: build
       push: yes
-      tag: "{{ tag_version }}"
+      tag: "{{ image_tag }}"
   tags:
     - push
 
@@ -100,12 +90,12 @@
 - block:
   - name: pull image of phonebook-mysql
     docker_image:
-      name: "{{ username }}/phonebook-mysql:{{ tag_version }}"
+      name: "{{ docker_hub_login }}/phonebook-mysql:{{ image_tag }}"
       source: pull
 
   - name: pull image of phonebook-app
     docker_image:
-      name: "{{ username }}/phonebook_repo/phonebook-app:{{ tag_version }}"
+      name: "{{ username }}/phonebook-app:{{ image_tag }}"
       source: pull
   tags:
     - prod
@@ -115,7 +105,7 @@
   - name: container phonebook mysql
     docker_container:
       name: phonebook-mysql
-      image: "{{ username }}/phonebook-mysql:{{ tag_version }}"
+      image: "{{ docker_hub_login }}/phonebook-mysql:{{ image_tag }}"
       state: started
       restart: yes
       networks:
@@ -128,7 +118,7 @@
   - name: container phonebook app
     docker_container:
       name: phonebook-app
-      image: "{{ username }}/phonebook-app:{{ tag_version }}"
+      image: "{{ docker_hub_login }}/phonebook-app:{{ image_tag }}"
       state: started
       ports:
         - "8181:8181"
@@ -141,6 +131,6 @@
 
 - name: Check that you can connect (GET) to a page and it returns a status 200
   uri:
-    url: "http://{{ adresse_preprod }}:{{ port_preprod }}"
+    url: "http://52.91.118.20:8181"
   tags:
     - test
