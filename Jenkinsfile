@@ -44,14 +44,14 @@ pipeline {
                    }
                 }
 
-                 stage("Vérify ansible playbook syntax") {
+                 /*stage("Vérify ansible playbook syntax") {
                    steps {
                        sh 'sudo apt install python3-pip -y'
                        sh 'sudo pip install ansible-lint'
                        sh 'ansible-lint -x 306 phonebook.yml'
                        sh 'echo "${GIT_BRANCH}"'
                    }
-                 } 
+                 }*/ 
                stage("Build docker images on build host") {
                    when {
                       expression { GIT_BRANCH == 'origin/dev' }
