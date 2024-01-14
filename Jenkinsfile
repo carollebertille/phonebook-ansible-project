@@ -2,7 +2,7 @@
 
 
 pipeline {
-    agent none
+    agent any
     
     stages {
         stage('Check bash syntax') {
