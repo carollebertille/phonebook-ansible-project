@@ -101,7 +101,7 @@ pipeline {
             }
 
          }
-             /*stage("Deploy app in Production Environment") {
+             stage("Deploy app in Production Environment") {
                  agent any
                     when {
                        expression { GIT_BRANCH == 'origin/main' }
@@ -112,8 +112,6 @@ pipeline {
                   
                    }
                }
-               
-            }
           
            stage('Find xss vulnerability'){
           steps{
@@ -134,6 +132,7 @@ pipeline {
                }
             }
           }
+    }
     
     post {
      always {
