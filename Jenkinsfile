@@ -102,7 +102,7 @@ pipeline {
 
          }
              /*stage("Deploy app in Production Environment") {
-                 agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
+                 agent any
                     when {
                        expression { GIT_BRANCH == 'origin/main' }
                     }
@@ -112,18 +112,28 @@ pipeline {
                   
                    }
                }
-               stage("Ensure application is deployed in production") {
-                 agent { docker { image 'registry.gitlab.com/robconnolly/docker-ansible:latest' } }
-                  when {
-                      expression { GIT_BRANCH == 'origin/master' }
-                  }
-                  steps {
-                      sh 'ansible-playbook  -i hosts --vault-password-file vault.key --tags "prod" check_deploy_app.yml'
-                  }
-               }*/
+               
             }
+          
+           stage('Find xss vulnerability'){
+          steps{
+             script {
+                    sh '''
+                       docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/xss.attack
+                    '''
+               }
+            }
+          }
          
-           
+          stage('Find nmap vulnerability'){
+          steps{
+             script {
+                    sh '''
+                       docker run -v ${WORKSPACE}:${WORKSPACE}/attack gauntlt/gauntlt gauntlt ${WORKSPACE}/attack/attack/nmap.attack
+                    '''
+               }
+            }
+          }
     
     post {
      always {
