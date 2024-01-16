@@ -1,7 +1,7 @@
 # Full integration chain DevSecOps
 ## Tools 
 
-- Cloud : AWS, (EC2, IAM, AWSCLI...)
+- Cloud : AWS EC2
 - Container Engine : Docker
 - Configuration Managment: Ansible
 - Scheduling : Jenkins
