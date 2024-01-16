@@ -102,8 +102,3 @@ Docker, docker-compose, Ansible, Tags, Playbooks, Roles, Galaxy, Jenkins, Shared
 + [Source code development](https://github.com/carollebertille/phonebook-dev "Source code development")
 + [Shared-library](https://github.com/carollebertille/shared-library "Shared-library")
   
-### References
-
-* https://github.com/carollebertille/phonebook-dev source_code
-
-* https://github.com/carollebertille/share-library in order to share and make reusable codes
