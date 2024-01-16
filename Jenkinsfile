@@ -57,7 +57,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                    }
                    steps {
-                       sh 'ansible-playbook  -i hosts --private-key id_rsa --tags "build" --limit build phonebook.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "build" --limit build phonebook.yml'
                    }
                }
 
@@ -67,7 +67,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                   }
                    steps {
-                       sh 'ansible-playbook  -i hosts  --private-key id_rsa --limit build  clair-scan.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key  --private-key id_rsa --limit build  clair-scan.yml'
                    }
 
                }
@@ -101,7 +101,7 @@ pipeline {
             }
 
          }
-             /*stage("Deploy app in Production Environment") {
+             stage("Deploy app in Production Environment") {
                  agent any
                     when {
                        expression { GIT_BRANCH == 'origin/main' }
@@ -112,8 +112,6 @@ pipeline {
                   
                    }
                }
-               
-            }
           
            stage('Find xss vulnerability'){
           steps{
@@ -134,6 +132,7 @@ pipeline {
                }
             }
           }
+    }
     
     post {
      always {
