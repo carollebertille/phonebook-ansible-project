@@ -4,7 +4,6 @@
 - Cloud : AWS, (EC2, IAM, AWSCLI...)
 - Container Engine : Docker
 - Configuration Managment: Ansible
-- Source Code Managment : GitLab
 - Scheduling : Jenkins
 - Security: Clair, Sonarqube, Gauntlt
 - Notification: Slack, Email
