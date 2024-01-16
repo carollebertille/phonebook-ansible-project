@@ -1,71 +1,107 @@
-[![Build Status](http://34.204.91.44:8080/buildStatus/icon?job=phonebook)](http://34.204.91.44:8080/job/phonebook/)
-# Deployment of the phonebook application
+# Full integration chain DevSecOps
+## Tools 
 
-___________________________________________________
+- Cloud : AWS, (EC2, IAM, AWSCLI...)
+- Container Engine : Docker
+- Configuration Managment: Ansible
+- Source Code Managment : GitLab
+- Scheduling : Jenkins
+- Security: Clair, Sonarqube, Gauntlt
+- Notification: Slack, Email
 
-## 1. **Context**
-   
-   * Deployment of the phonebook application through the CI / CD
-   
-   * Implementation of the security aspect
-   
-   * Notification system
+## Project 
 
-## 2. **Used tools**
-   
-       * Amazon EC2                                       
-       * Docker
-       * Jenkins 
-       * Ansible                                         
-       * Sonarqube                                        
-       * Clair                                           
-       * Dockerhub registry
+### The context
+                
+The objective of this project is to deploy the web application by creating a complete DevSecOps-. For this application to be functional, it is necessary to deploy a MySQL database (backend) and a frontend.
+In this project, the problems of businesses, related to storage, to the control of their data and processes were taken into account.
 
-## 3. **Infrastructure**
-   
+### Infrastructure
 
-All servers are deployed on **AWS**.
-We have on our infrastructure:
+#### Description
+ 
+We wanted to reproduce an enterprise-type infrastructure with 4 servers:
+- A master type server which will contain the main applications and tools (Jenkins, Ansible, Docker…)
+- A build server to build our artifact, do unit tests and security scan of images
+- A staging / pre-production server in order to carry out tests of our artifacts in same conditions of production,
+- A production server in order to deploy our web application which can be consumed.
 
-- **Ansible and Jenkins server:**
+#### Infrastructure Diagram
+
+
+
+### Choice and description of tools
+
++ DevOps:
+  + Infrastructure deployed on the AWS cloud provider thanks to CloudFormation in order to favor IaC.
+  + Using Docker to containerize the database, web application as well as the frontend in two different containers to favor agility.
+  + Use of Ansible to configure our infrastructure and provisione it.
+  + Implementation of a Gitflow to respect good practices. Creation of two branches:
+    + The “main” branch which will be used only to deploy our infrastructure and our application in production,
+    + The “dev” branch which will be used to develop the functionalities and carry out the tests.
+    + Pull request in order to merge the “dev” branch on the “main” branch
+  + Use of Jenkins to orchestrate all stages and set up several pipelines.
+  + Use notification space on the Slack collaborative platform and email to notify us of the state of the pipeline.
+  + Generation of badges to inform employees
+
++ DevSecOps:
+  + Sonarqube analyze the code
+  + Clair Image Scanner:
+    + Identify vulnerabilities in built images
+  + Attack generation with Gauntlt:
+    + Execute attack scenarios to identify vulnerabilities in our web application :
+      + xss attack
+      + curl attack
+      + nmap attack
+
+### Workflow
+
+#### Description
+
+Continuous Delivery on the **“dev”** branch:
++ Development code update via git,
+  + Continuous Integration
+    + Triggering of the first pipeline thanks to the push trigger and the webhook sent to Jenkins:
+    + Analysis / linter and tests of the syntax of Pyhton and Dockerfile
+    + Notification on Slack and by email of the result of this pipeline
+
++ If the pipeline is successful, triggering and automatic execution of another pipeline thanks to the success of the first:
+  + Continuous Integration
+     + Analysis / linter and tests of the syntax of mardown, bash, yml files and also of the Ansible syntax
+     + Configuration of the environment on the build server, then build and test our artifacts (Docker images) on the server.
+     + **Security** : Vulnerability scan of builder images with Clair
+     + Push our images on our  registry Dockerhub. Cleaning up the build environment.
+     
+  + Continuous Deployment
+     + On the staging server, configuration of the environment, recovery of the necessary sources and deployment of our application in an environment close to production,
+     + **Security** : Generation of attacks with several scenarios:
+       + xss attack
+       + curl attack (curl and xss)
+       + nmap attack
+     + Several tests of the proper functioning of the application (web services and database)
+     + Notification on Slack and by email of the result of this pipeline
+
++ If the pipeline is successful, set up a Pull Request for a manager to check all the pipelines and that they are working properly.
+The manager decides to accept the Pull Request and therefore merge the "dev" branch on the "main" branch to deploy the application in production.
+
+Continuous Delivery on the **”Main”** branch:
++ A new pipeline is triggered and executed automatically after the Merge Request:
+  + Analysis / linter and tests of the syntax of mardown, bash, yml files and also of the Ansible syntax
+  + The build and staging steps are voluntarily forgotten,
+  + On the production server, configuration of the environment, recovery of the necessary sources and deployment of our application in the production environment
+  + Several tests of the proper functioning functional of the application in production (web services and database)
+  + Notification on Slack and by email of the result of this pipeline.
+
+
+### Technical word
+
+Docker, docker-compose, Ansible, Tags, Playbooks, Roles, Galaxy, Jenkins, Shared-library, Pipeline, Notification, linter, DevSecOps, Clair, Gauntlt, Jmeter
+
+### Reference repository
+
++ [Source code development](https://github.com/carollebertille/devsecops-phonebook/tree/develop/phonebook-application "Source code development")
++ [Shared-library](https://github.com/samiamoura/devsecops-phonebook/tree/master/shared-library "Shared-library")
   
-  This server is the main one. Thanks to Ansible, the application will be deployed automatically on the servers and thanks to Jenkins, we will be able to orchestrate this deployment.
-
-- **Dockerhub registry:**
-
-The goal here is to store and share our docker images. we used **Dockerhub**. 
-
-- **build, preprod and production servers:**
-
-They will be used respectively for the build of images, for deployments in test and production environments.
-
-## 4. **Workflow**
-In order to fully understand this workfow, let's take the following scenario:
-
-- Developer makes a modification to the code and pushes it on github
-
-- Thanks to the webhook, the modification is received on the jenkins server and the build of the project can begin
-
-- Syntax checks will be done (unit tests)
-
-- We will have the build of the docker images and pushed on  **Dockerhub** registry. 
-
-- Deployment in a test environment (pre-production) can begin by pulling images from Dockerhub register and a notification is sent to slack.
-
-- The modification validated by the development team, a **PR** will be carried out in order to share the modification to the Operational (Ops)
-
-- After validation by the whole team, the Ops manager can make the **merge request** in order to pass the modification on the main branch.
-
-- Deployment in production environment will then be activated and a notification is sent to slack
-
-- Once the application is deployed, a user will be able to connect and consume the application.
-
-### Keywords
-
-```
-docker, docker compose, git, github, shared library, ansible, jenkins, AWS, Clair, Dockerhub registry, Slack, Pull Request, Merge Request
-```
-
 ### References
 
 * https://github.com/carollebertille/phonebook-dev source_code
