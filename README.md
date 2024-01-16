@@ -94,7 +94,7 @@ Continuous Delivery on the **”Main”** branch:
 
 ### Technical word
 
-Docker, docker-compose, Ansible, Tags, Playbooks, Roles, Galaxy, Jenkins, Shared-library, Pipeline, Notification, linter, DevSecOps, Clair, Gauntlt, Jmeter
+Docker, docker-compose, Ansible, Tags, Playbooks, Roles, Galaxy, Jenkins, Shared-library, Pipeline, Notification, linter, DevSecOps, Clair, Gauntlt, Sonarqube
 
 ### Reference repository
 
