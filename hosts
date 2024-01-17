@@ -2,11 +2,11 @@
 54.236.46.21  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3
 
 [preprod]
-3.85.136.195  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3
+54.164.149.48  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3
 
 
 [prod]
-52.91.133.242  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
+52.91.127.130  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3 
 
 
 
