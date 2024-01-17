@@ -1,5 +1,5 @@
 [build]
-54.236.46.21  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3
+3.90.80.176  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3
 
 [preprod]
 54.164.149.48  ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no'  ansible_python_interpreter=/usr/bin/python3
